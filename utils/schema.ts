@@ -6,4 +6,10 @@ export const ResumeTitle = pgTable("resume_title", {
     title: text("title").notNull(),
     user: varchar("user").notNull(),
     email: varchar("email").notNull(),
+    firstName: varchar("firstName"),
+    lastName: varchar("lastName"),
+    jobTitle: varchar("jobTitle"),
+    address: varchar("address"),
+    phone: varchar("phone"),
+    res_email: varchar("res_email"),
 })

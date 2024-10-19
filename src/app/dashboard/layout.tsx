@@ -1,7 +1,7 @@
-"use client"
+"use client";
 import Header from '@/components/Header';
+import { ToastProvider, Toast } from '@/components/ui/toast';
 import React, { ReactNode } from 'react';
-
 
 interface DashboardLayoutProps {
   children: ReactNode;
@@ -9,13 +9,15 @@ interface DashboardLayoutProps {
 
 function DashboardLayout({ children }: DashboardLayoutProps) {
   return (
-    <div className="">
-      <Header/>
+    <ToastProvider> 
       <div className="">
-        {children}
+        <Header />
+        <div className="">
+          {children}
+        </div>
+        <Toast /> 
       </div>
-     
-    </div>
+    </ToastProvider>
   );
 }
 

@@ -47,3 +47,33 @@ export async function GET(req: NextRequest) {
     }
     
 }
+
+
+export async function PUT(req: NextRequest) {
+    const body = await req.json();
+    const { id, firstName, lastName, jobTitle, address, phone, res_email} = body;
+
+    if(!id){
+        return NextResponse.json({ message: 'Email query parameter is required' }, { status: 400 });
+    }
+
+    try {
+        const response = await db.update(ResumeTitle).set({
+            firstName: firstName,
+            lastName: lastName,
+            jobTitle: jobTitle,
+            address: address,
+            phone: phone,
+            res_email: res_email
+        }).where(eq(ResumeTitle.unicon_id, id));
+
+        if(response.rowCount > 0){
+            return NextResponse.json({ message: 'success' }, { status: 200 });
+        }else{
+            return NextResponse.json({ message: 'Resume Not found' }, { status: 404 });
+        }
+    }catch(e:any){
+        console.log(e);
+        return NextResponse.json({ message: e.message }, { status: 400 });
+    }
+}

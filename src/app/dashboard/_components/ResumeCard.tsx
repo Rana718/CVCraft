@@ -10,7 +10,7 @@ interface ResumeCardProps{
 
 function ResumeCard({resume}:ResumeCardProps) {
   return (
-    <Link href={`/dashboard/resume/${resume.id}/edit`}>
+    <Link href={`/dashboard/resume/${resume.unicon_id}/edit`}>
         <div className='p-14 bg-secondary flex items-center justify-center h-[280px] border border-purple-500 rounded-lg hover:scale-105 transition-all hover:shadow-md shadow-purple-700'>
             <Notebook/>
         </div>
