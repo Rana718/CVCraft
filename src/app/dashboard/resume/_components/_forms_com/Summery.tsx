@@ -2,20 +2,26 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { ResumeInfoContext } from '@/context/ResumeinfoContext';
 import { toast } from '@/hooks/use-toast';
+import { AIChatSession } from '@/service/AiModal';
 import { Brain, LoaderCircle } from 'lucide-react';
 import { useParams } from 'next/navigation';
 import React, { useContext, useEffect, useState } from 'react'
 
 
-interface SummeryProps{
+interface SummeryProps {
     enabledNext: (value: boolean) => void;
 }
 
-function Summery({enabledNext}: SummeryProps) {
+interface AiSummary {
+    summary: string;
+    experience_level: string;
+}
+
+function Summery({ enabledNext }: SummeryProps) {
     const [summery, setSummery] = useState('');
     const [loading, setLoading] = useState(false);
     const params = useParams();
-    const [aiGeneratedSummeryList, setAiGenerateSummeryList] = useState();
+    const [aiGeneratedSummeryList, setAiGenerateSummeryList] = useState<AiSummary[]>([]);
     const resumeContext = useContext(ResumeInfoContext);
 
     if (!resumeContext) {
@@ -24,12 +30,12 @@ function Summery({enabledNext}: SummeryProps) {
 
     const { resumeInfo, setResumeInfo } = resumeContext;
 
-    useEffect(()=>{
-        if(summery){
+    useEffect(() => {
+        if (summery) {
             setResumeInfo({
                 ...resumeInfo,
                 summery: summery || '',
-                firstName: resumeInfo?.firstName || '', 
+                firstName: resumeInfo?.firstName || '',
                 lastName: resumeInfo?.lastName || '',
                 jobTitle: resumeInfo?.jobTitle || '',
                 address: resumeInfo?.address || '',
@@ -41,10 +47,15 @@ function Summery({enabledNext}: SummeryProps) {
                 skills: resumeInfo?.skills || [],
             })
         }
-    },[summery])
+    }, [summery])
 
-    const GenerateSummeryFromAI=async()=>{
-        
+    const GenerateSummeryFromAI = async () => {
+        setLoading(true);
+        const PROMPT = `Job Title: ${resumeInfo?.jobTitle} , Depends on job title give me list of  summery for 3 experience level, Mid Level and Freasher level in 3 -4 lines in array format, With summery and experience_level Field in JSON Format`
+        const result = await AIChatSession.sendMessage(PROMPT);
+        setAiGenerateSummeryList(JSON.parse(result.response.text()));
+        setLoading(false);
+        console.log(result);
     }
 
 
@@ -52,7 +63,7 @@ function Summery({enabledNext}: SummeryProps) {
         e.preventDefault();
         setLoading(true);
 
-        try{
+        try {
             const response = await fetch('/api/resume', {
                 method: 'PUT',
                 headers: {
@@ -71,7 +82,7 @@ function Summery({enabledNext}: SummeryProps) {
                     description: 'Summery saved successfully',
                 })
             }
-        }catch(e:any){
+        } catch (e: any) {
             console.log(e.message)
             setLoading(false);
         }
@@ -103,6 +114,21 @@ function Summery({enabledNext}: SummeryProps) {
                     </div>
                 </form>
             </div>
+
+            {aiGeneratedSummeryList.length > 0 &&
+                <div className='my-5'>
+                    <h2 className='font-bold text-lg'>Suggestions</h2>
+                    {aiGeneratedSummeryList?.map((item, index) => (
+                        <div key={index}
+                            onClick={() => setSummery(item?.summary)}
+                            className='p-5 shadow-lg my-4 rounded-lg cursor-pointer'>
+                            <h2 className='font-bold my-1 text-primary'>Level: {item?.experience_level}</h2>
+                            <p>{item?.summary}</p>
+                        </div>
+                    ))}
+                </div>
+            }
+
         </div>
     )
 }
