@@ -12,4 +12,5 @@ export const ResumeTitle = pgTable("resume_title", {
     address: varchar("address"),
     phone: varchar("phone"),
     res_email: varchar("res_email"),
+    summery: text("summary"),
 })

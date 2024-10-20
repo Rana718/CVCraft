@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { ResumeInfoContext } from '@/context/ResumeinfoContext';
+import { toast } from '@/hooks/use-toast';
 import { Brain, LoaderCircle } from 'lucide-react';
 import { useParams } from 'next/navigation';
 import React, { useContext, useEffect, useState } from 'react'
@@ -24,12 +25,23 @@ function Summery({enabledNext}: SummeryProps) {
     const { resumeInfo, setResumeInfo } = resumeContext;
 
     useEffect(()=>{
-        // summery&&setResumeInfo({
-        //     ...resumeInfo,
-        //     summery:summery
-        // })
-        console.log(resumeInfo?.summery)
-    },[])
+        if(summery){
+            setResumeInfo({
+                ...resumeInfo,
+                summery: summery || '',
+                firstName: resumeInfo?.firstName || '', 
+                lastName: resumeInfo?.lastName || '',
+                jobTitle: resumeInfo?.jobTitle || '',
+                address: resumeInfo?.address || '',
+                phone: resumeInfo?.phone || '',
+                email: resumeInfo?.email || '',
+                themeColor: resumeInfo?.themeColor || '',
+                experience: resumeInfo?.experience || [],
+                education: resumeInfo?.education || [],
+                skills: resumeInfo?.skills || [],
+            })
+        }
+    },[summery])
 
     const GenerateSummeryFromAI=async()=>{
         
@@ -40,35 +52,29 @@ function Summery({enabledNext}: SummeryProps) {
         e.preventDefault();
         setLoading(true);
 
-        // try {
-        //     const response = await fetch('/api/resume', {
-        //         method: 'PUT',
-        //         headers: {
-        //             'Content-Type': 'application/json',
-        //         },
-        //         body: JSON.stringify({
-        //             id: params.id,
-        //             firstName: formData.firstName,
-        //             lastName: formData.lastName,
-        //             jobTitle: formData.jobTitle,
-        //             address: formData.address,
-        //             phone: formData.phone,
-        //             res_email: formData.email,
-        //         }),
-        //     });
-        //     if (response) {
-        //         enabledNext(true);
-        //         setLoading(false);
-        //         toast({
-        //             title: 'Success',
-        //             description: 'Personal Details saved successfully',
-        //             variant: 'default',
-        //         })
-        //     }
-        // } catch (error) {
-        //     console.error('Error saving personal details:', error);
-        //     setLoading(false);
-        // }
+        try{
+            const response = await fetch('/api/resume', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    id: params.id,
+                    summery: summery
+                }),
+            });
+            if (response) {
+                setLoading(false);
+                enabledNext(true);
+                toast({
+                    title: 'Success',
+                    description: 'Summery saved successfully',
+                })
+            }
+        }catch(e:any){
+            console.log(e.message)
+            setLoading(false);
+        }
     };
 
     return (

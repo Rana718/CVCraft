@@ -51,21 +51,28 @@ export async function GET(req: NextRequest) {
 
 export async function PUT(req: NextRequest) {
     const body = await req.json();
-    const { id, firstName, lastName, jobTitle, address, phone, res_email} = body;
+    const { id, firstName, lastName, jobTitle, address, phone, res_email, summery} = body;
 
     if(!id){
         return NextResponse.json({ message: 'Email query parameter is required' }, { status: 400 });
     }
 
+    const updateData: any = {};
+
+    if (firstName) updateData.firstName = firstName;
+    if (lastName) updateData.lastName = lastName;
+    if (jobTitle) updateData.jobTitle = jobTitle;
+    if (address) updateData.address = address;
+    if (phone) updateData.phone = phone;
+    if (res_email) updateData.res_email = res_email;
+    if (summery) updateData.summery = summery;
+
+    if (Object.keys(updateData).length === 0) {
+        return NextResponse.json({ message: 'No data provided for update' }, { status: 400 });
+    }
+
     try {
-        const response = await db.update(ResumeTitle).set({
-            firstName: firstName,
-            lastName: lastName,
-            jobTitle: jobTitle,
-            address: address,
-            phone: phone,
-            res_email: res_email
-        }).where(eq(ResumeTitle.unicon_id, id));
+        const response = await db.update(ResumeTitle).set(updateData).where(eq(ResumeTitle.unicon_id, id));
 
         if(response.rowCount > 0){
             return NextResponse.json({ message: 'success' }, { status: 200 });
