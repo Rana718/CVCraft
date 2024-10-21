@@ -1,4 +1,4 @@
-import { Experience } from "@/types";
+import { Education, Experience } from "@/types";
 import { serial, pgTable, text, varchar, jsonb } from "drizzle-orm/pg-core";
 
 export const ResumeTitle = pgTable("resume_title", {
@@ -14,5 +14,6 @@ export const ResumeTitle = pgTable("resume_title", {
     phone: varchar("phone"),
     res_email: varchar("res_email"),
     summery: text("summary"),
-    experience: jsonb("experience").$type<Experience[]>()
+    experience: jsonb("experience").$type<Experience[]>(),
+    education: jsonb("education").$type<Education[]>(),
 })
