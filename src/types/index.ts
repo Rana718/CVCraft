@@ -25,7 +25,7 @@ export interface ResumeInfoProps {
 
 
 
-interface Experience {
+export interface Experience {
     id: number;
     title: string;
     companyName: string;

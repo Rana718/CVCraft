@@ -1,11 +1,11 @@
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { ResumeInfoContext } from '@/context/ResumeinfoContext';
-import { toast } from '@/hooks/use-toast';
 import { AIChatSession } from '@/service/AiModal';
 import { Brain, LoaderCircle } from 'lucide-react';
 import { useParams } from 'next/navigation';
 import React, { useContext, useEffect, useState } from 'react'
+import { toast } from 'sonner';
 
 
 interface SummeryProps {
@@ -75,12 +75,10 @@ function Summery({ enabledNext }: SummeryProps) {
                 }),
             });
             if (response) {
+                toast("successfully saved")
                 setLoading(false);
                 enabledNext(true);
-                toast({
-                    title: 'Success',
-                    description: 'Summery saved successfully',
-                })
+                
             }
         } catch (e: any) {
             console.log(e.message)

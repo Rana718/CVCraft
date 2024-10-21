@@ -10,7 +10,7 @@ import Experience from './_forms_com/Experience';
 function FromSection() {
   const [activeFormIndex, setActiveFormIndex] = useState(1);
   const [enableNext, setEnableNext] = useState(true);
-  const { resumeId } = useParams();
+  const { id } = useParams();
 
   return (
     <div>

@@ -3,15 +3,14 @@ import { Input } from '@/components/ui/input';
 import { ResumeInfoContext } from '@/context/ResumeinfoContext';
 import { LoaderCircle } from 'lucide-react';
 import { useParams } from 'next/navigation';
-import { useToast } from "@/hooks/use-toast"
 import React, { useContext, useEffect, useState } from 'react';
+import { toast } from 'sonner';
 
 interface PersonalDetailsProps {
     enabledNext: (value: boolean) => void;
 }
 
 function PersonalDetails({ enabledNext }: PersonalDetailsProps) {
-    const { toast } = useToast();
     const params = useParams();
     const resumeContext = useContext(ResumeInfoContext);
 
@@ -71,11 +70,7 @@ function PersonalDetails({ enabledNext }: PersonalDetailsProps) {
             if (response) {
                 enabledNext(true);
                 setLoading(false);
-                toast({
-                    title: 'Success',
-                    description: 'Personal Details saved successfully',
-                    variant: 'default',
-                })
+                toast("Successfully saved personal details")
             }
         } catch (error) {
             console.error('Error saving personal details:', error);

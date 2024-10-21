@@ -1,4 +1,5 @@
-import { serial, pgTable, text, varchar } from "drizzle-orm/pg-core";
+import { Experience } from "@/types";
+import { serial, pgTable, text, varchar, jsonb } from "drizzle-orm/pg-core";
 
 export const ResumeTitle = pgTable("resume_title", {
     id: serial("id").primaryKey(),
@@ -13,4 +14,5 @@ export const ResumeTitle = pgTable("resume_title", {
     phone: varchar("phone"),
     res_email: varchar("res_email"),
     summery: text("summary"),
+    experience: jsonb("experience").$type<Experience[]>()
 })
