@@ -64,10 +64,10 @@ export async function GET(req: NextRequest) {
 
 export async function PUT(req: NextRequest) {
     const body = await req.json();
-    const { id, firstName, lastName, jobTitle, address, phone, res_email, summery, experience, education, skills } = body;
+    const { id, firstName, lastName, jobTitle, address, phone, res_email, summery, themeColor, experience, education, skills } = body;
 
     if (!id) {
-        return NextResponse.json({ message: 'Email query parameter is required' }, { status: 400 });
+        return NextResponse.json({ message: 'id query parameter is required' }, { status: 400 });
     }
 
     const updateData: any = {};
@@ -79,6 +79,7 @@ export async function PUT(req: NextRequest) {
     if (phone) updateData.phone = phone;
     if (res_email) updateData.res_email = res_email;
     if (summery) updateData.summery = summery;
+    if (themeColor) updateData.themeColor = themeColor;
     if (experience) updateData.experience = experience;
     if (education) updateData.education = education;
     if (skills) updateData.skills = skills;
@@ -92,6 +93,29 @@ export async function PUT(req: NextRequest) {
 
         if (response.rowCount > 0) {
             return NextResponse.json({ message: 'success' }, { status: 200 });
+        } else {
+            return NextResponse.json({ message: 'Resume Not found' }, { status: 404 });
+        }
+    } catch (e: any) {
+        console.log(e);
+        return NextResponse.json({ message: e.message }, { status: 400 });
+    }
+}
+
+
+export async function DELETE(req: NextRequest) {
+    const { searchParams } = new URL(req.url);
+    const id = searchParams.get('id');
+
+    if (!id) {
+        return NextResponse.json({ message: 'unicon_id is required' }, { status: 400 });
+    }
+
+    try {
+        const response = await db.delete(ResumeTitle).where(eq(ResumeTitle.unicon_id, id));
+
+        if (response.rowCount > 0) {
+            return NextResponse.json({ message: 'Resume deleted successfully' }, { status: 200 });
         } else {
             return NextResponse.json({ message: 'Resume Not found' }, { status: 404 });
         }

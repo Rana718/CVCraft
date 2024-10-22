@@ -2,6 +2,7 @@ export interface ResumeInit {
     id: string;
     unicon_id: string;
     title: string;
+    themeColor: string;
     user: string;
     email: string;
 }

@@ -18,7 +18,6 @@ function EditResume() {
     const res = await fetch(`http://localhost:3000/api/resume?id=${params.id}`)
     const data = await res.json()
     setResumeInfo(data)
-    console.log(data)
   }
 
   return (

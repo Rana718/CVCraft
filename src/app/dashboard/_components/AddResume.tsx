@@ -27,7 +27,7 @@ function AddResume() {
         const id = uuidv4();
         const user_name = user?.fullName;
         const email = user?.primaryEmailAddress?.emailAddress;
-        console.log(user)
+        
 
         try {
             const response = await fetch("/api/resume", {
