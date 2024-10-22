@@ -12,6 +12,7 @@ export const ResumeTitle = pgTable("resume_title", {
     jobTitle: varchar("jobTitle"),
     address: varchar("address"),
     phone: varchar("phone"),
+    themeColor: varchar("themeColor"),
     res_email: varchar("res_email"),
     summery: text("summary"),
     experience: jsonb("experience").$type<Experience[]>(),

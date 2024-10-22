@@ -28,24 +28,37 @@ export async function POST(req: NextRequest) {
 export async function GET(req: NextRequest) {
     const { searchParams } = new URL(req.url);
     const email = searchParams.get('email');
+    const id = searchParams.get('id');
 
-    if (!email) {
-        return NextResponse.json({ message: 'Email query parameter is required' }, { status: 400 });
-    }
+    if (email) {
+        try {
+            const resumes = await db.select().from(ResumeTitle).where(eq(ResumeTitle.email, email));
 
-    try {
-        const resumes = await db.select().from(ResumeTitle).where(eq(ResumeTitle.email, email));
-
-        if (resumes.length > 0) {
-            return NextResponse.json(resumes, { status: 200 });
-        } else {
-            return NextResponse.json({ message: 'No resumes found' }, { status: 404 });
+            if (resumes.length > 0) {
+                return NextResponse.json(resumes, { status: 200 });
+            } else {
+                return NextResponse.json({ message: 'No resumes found' }, { status: 404 });
+            }
+        } catch (err: any) {
+            console.log(err);
+            return NextResponse.json({ message: err.message }, { status: 400 });
         }
-    }catch (err: any) {
-        console.log(err);
-        return NextResponse.json({ message: err.message }, { status: 400 });
     }
-    
+    if (id) {
+        try {
+            const resume = await db.select().from(ResumeTitle).where(eq(ResumeTitle.unicon_id, id));
+
+            if (resume.length > 0) {
+                return NextResponse.json(resume[0], { status: 200 });
+            } else {
+                return NextResponse.json({ message: 'No resume found with the provided unicon_id' }, { status: 404 });
+            }
+        } catch (err: any) {
+            console.log(err);
+            return NextResponse.json({ message: err.message }, { status: 400 });
+        }
+    }
+
 }
 
 
@@ -53,7 +66,7 @@ export async function PUT(req: NextRequest) {
     const body = await req.json();
     const { id, firstName, lastName, jobTitle, address, phone, res_email, summery, experience, education, skills } = body;
 
-    if(!id){
+    if (!id) {
         return NextResponse.json({ message: 'Email query parameter is required' }, { status: 400 });
     }
 
@@ -77,12 +90,12 @@ export async function PUT(req: NextRequest) {
     try {
         const response = await db.update(ResumeTitle).set(updateData).where(eq(ResumeTitle.unicon_id, id));
 
-        if(response.rowCount > 0){
+        if (response.rowCount > 0) {
             return NextResponse.json({ message: 'success' }, { status: 200 });
-        }else{
+        } else {
             return NextResponse.json({ message: 'Resume Not found' }, { status: 404 });
         }
-    }catch(e:any){
+    } catch (e: any) {
         console.log(e);
         return NextResponse.json({ message: e.message }, { status: 400 });
     }

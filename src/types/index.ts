@@ -12,6 +12,7 @@ export interface ResumeData {
     address: string;
     phone: string;
     email: string;
+    res_email: string;
     themeColor: string;
     summery: string;
     experience: Experience[];

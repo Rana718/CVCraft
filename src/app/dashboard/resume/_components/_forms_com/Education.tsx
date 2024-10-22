@@ -39,6 +39,7 @@ function Education() {
             address: resumeInfo?.address || '',
             phone: resumeInfo?.phone || '',
             email: resumeInfo?.email || '',
+            res_email: resumeInfo?.res_email || '',
             summery: resumeInfo?.summery || '',
             themeColor: resumeInfo?.themeColor || '',
             experience: resumeInfo?.experience || [],

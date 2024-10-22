@@ -26,8 +26,22 @@ function PersonalDetails({ enabledNext }: PersonalDetailsProps) {
         jobTitle: resumeInfo?.jobTitle || '',
         address: resumeInfo?.address || '',
         phone: resumeInfo?.phone || '',
-        email: resumeInfo?.email || '',
+        email: resumeInfo?.res_email || '',
     });
+
+    useEffect(() => {
+        if (resumeInfo?.firstName) {
+          setFormData({
+            ...formData,
+            firstName: resumeInfo.firstName,
+            lastName: resumeInfo.lastName,
+            jobTitle: resumeInfo.jobTitle,
+            address: resumeInfo.address,
+            phone: resumeInfo.phone,
+            email: resumeInfo.res_email,
+          });
+        }
+      }, [resumeInfo]);
 
     const [loading, setLoading] = useState(false);
 

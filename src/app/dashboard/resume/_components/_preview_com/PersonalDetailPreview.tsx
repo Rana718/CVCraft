@@ -26,7 +26,7 @@ function PersonalDetailPreview({resumeInfo}: ResumeInfoProps) {
             <h2 className='font-normal text-xs'
              style={{
                 color:resumeInfo?.themeColor
-            }}>{resumeInfo?.email}</h2>
+            }}>{resumeInfo?.res_email}</h2>
 
         </div>
         <hr className='border-[1.5px] my-2'

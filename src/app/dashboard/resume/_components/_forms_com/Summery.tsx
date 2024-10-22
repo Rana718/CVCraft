@@ -41,6 +41,7 @@ function Summery({ enabledNext }: SummeryProps) {
                 address: resumeInfo?.address || '',
                 phone: resumeInfo?.phone || '',
                 email: resumeInfo?.email || '',
+                res_email: resumeInfo?.res_email || '',
                 themeColor: resumeInfo?.themeColor || '',
                 experience: resumeInfo?.experience || [],
                 education: resumeInfo?.education || [],
@@ -99,8 +100,7 @@ function Summery({ enabledNext }: SummeryProps) {
                             type="button" size="sm" className="border-primary text-primary flex gap-2">
                             <Brain className='h-4 w-4' />  Generate from AI</Button>
                     </div>
-                    <Textarea className="mt-5" required
-                        value={summery}
+                    <Textarea className="mt-5 h-32" required 
                         defaultValue={summery ? summery : resumeInfo?.summery}
                         onChange={(e) => setSummery(e.target.value)}
                     />

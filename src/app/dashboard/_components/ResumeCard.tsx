@@ -3,18 +3,18 @@ import { Notebook } from 'lucide-react'
 import Link from 'next/link'
 import React from 'react'
 
-interface ResumeCardProps{
-    resume: ResumeInit
+interface ResumeCardProps {
+  resume: ResumeInit
 }
 
 
-function ResumeCard({resume}:ResumeCardProps) {
+function ResumeCard({ resume }: ResumeCardProps) {
   return (
     <Link href={`/dashboard/resume/${resume.unicon_id}/edit`}>
-        <div className='p-14 bg-secondary flex items-center justify-center h-[280px] border border-purple-500 rounded-lg hover:scale-105 transition-all hover:shadow-md shadow-purple-700'>
-            <Notebook/>
-        </div>
-        <h2 className='text-center my-1'>{resume.title}</h2>
+      <div className='p-14 bg-secondary flex items-center justify-center h-[280px] border border-purple-500 rounded-lg hover:scale-105 transition-all hover:shadow-md shadow-purple-700'>
+        <img src="/cv.png" width={80} height={80} />
+      </div>
+      <h2 className='text-center my-1'>{resume.title}</h2>
     </Link>
   )
 }

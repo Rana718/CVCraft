@@ -38,6 +38,7 @@ function Skills() {
       phone: resumeInfo?.phone || '',
       email: resumeInfo?.email || '',
       summery: resumeInfo?.summery || '',
+      res_email: resumeInfo?.res_email || '',
       education: resumeInfo?.education || [],
       themeColor: resumeInfo?.themeColor || '',
       experience: resumeInfo?.experience || [],
