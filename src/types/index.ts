@@ -47,7 +47,7 @@ export interface Education {
     description: string;
 }
 
-interface Skill {
+export interface Skill {
     id: number;
     name: string;
     rating: number;

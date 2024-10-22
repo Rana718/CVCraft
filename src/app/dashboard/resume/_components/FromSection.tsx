@@ -7,6 +7,7 @@ import PersonalDetails from './_forms_com/PersonalDetails';
 import Summery from './_forms_com/Summery';
 import Experience from './_forms_com/Experience';
 import Education from './_forms_com/Education';
+import Skills from './_forms_com/Skills';
 
 function FromSection() {
   const [activeFormIndex, setActiveFormIndex] = useState(1);
@@ -46,8 +47,8 @@ function FromSection() {
             : activeFormIndex == 4 ?
               <Education />
               : activeFormIndex == 5 ?
-                <div> sumery3</div>
-                // <Skills/>
+                // <div> sumery3</div>
+                <Skills/>
                 // :activeFormIndex==6?
                 // <Navigate to={'/my-resume/'+resumeId+"/view"}/>
 

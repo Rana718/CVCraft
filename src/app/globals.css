@@ -12,6 +12,14 @@ body {
   }
 }
 
+.rr--focus-reset {
+  outline: 6px double #0079ff;
+}
+
+.rr--box:focus-visible .rr--svg {
+  outline: 6px double #0079ff;
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;

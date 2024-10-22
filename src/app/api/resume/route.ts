@@ -51,7 +51,7 @@ export async function GET(req: NextRequest) {
 
 export async function PUT(req: NextRequest) {
     const body = await req.json();
-    const { id, firstName, lastName, jobTitle, address, phone, res_email, summery, experience, education } = body;
+    const { id, firstName, lastName, jobTitle, address, phone, res_email, summery, experience, education, skills } = body;
 
     if(!id){
         return NextResponse.json({ message: 'Email query parameter is required' }, { status: 400 });
@@ -68,6 +68,7 @@ export async function PUT(req: NextRequest) {
     if (summery) updateData.summery = summery;
     if (experience) updateData.experience = experience;
     if (education) updateData.education = education;
+    if (skills) updateData.skills = skills;
 
     if (Object.keys(updateData).length === 0) {
         return NextResponse.json({ message: 'No data provided for update' }, { status: 400 });
