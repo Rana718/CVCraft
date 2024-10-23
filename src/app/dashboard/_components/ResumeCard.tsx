@@ -20,6 +20,7 @@ import {
 } from '@/components/ui/alert-dialog';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
+import Image from 'next/image';
 
 interface ResumeCardProps {
   resume: ResumeInit;
@@ -53,10 +54,12 @@ function ResumeCard({ resume, refreshData }: ResumeCardProps) {
 
       <Link href={`/dashboard/resume/${resume.unicon_id}/edit`} passHref>
         <div className='relative p-14 bg-gradient-to-r from-purple-600 to-indigo-600 flex items-center justify-center h-[200px] border-2 border-purple-500 rounded-t-lg transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3'>
-          <img
+          <Image
             src='/cv.png'
             alt='Resume Icon'
-            className='w-[80px] h-[80px] transition-transform duration-300 ease-in-out transform group-hover:rotate-12 group-hover:scale-125'
+            width={80}
+            height={80}
+            className='transition-transform duration-300 ease-in-out transform group-hover:rotate-12 group-hover:scale-125'
           />
 
           <div className='absolute inset-0 bg-black opacity-0 group-hover:opacity-30 transition-opacity duration-300'></div>

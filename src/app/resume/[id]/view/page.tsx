@@ -5,9 +5,9 @@ import { ResumeInfoContext } from '@/context/ResumeinfoContext';
 import { ResumeData } from '@/types';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { RWebShare } from 'react-web-share';
-//@ts-expect-error
+//@ts-expect-error: html2pdf
 import html2pdf from 'html2pdf.js';
 
 function ViewResume() {

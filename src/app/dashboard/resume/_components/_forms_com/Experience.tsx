@@ -21,8 +21,8 @@ interface ExperienceEntry {
 }
 
 function Experience() {
-  const [experienceList, setExperienceList] = useState<ExperienceEntry[]>([]);
   const resumeContext = useContext(ResumeInfoContext);
+  const [experienceList, setExperienceList] = useState<ExperienceEntry[]>([]);
   const [loading, setLoading] = useState(false);
   const params = useParams();
 
@@ -33,8 +33,8 @@ function Experience() {
   const { resumeInfo, setResumeInfo } = resumeContext;
 
   useEffect(() => {
-    if (resumeInfo?.experience) {
-      setExperienceList(resumeInfo.experience);
+    if (resumeInfo) {
+      setExperienceList(resumeInfo.experience || []);
     }
   }, [resumeInfo]);
 
@@ -115,8 +115,8 @@ function Experience() {
         setLoading(false);
 
       }
-    } catch (e: any) {
-      console.log(e.message)
+    } catch (e) {
+      console.log(e)
       setLoading(false);
     }
 
@@ -127,7 +127,7 @@ function Experience() {
       <h2 className='font-bold text-lg'>Professional Experience</h2>
       <p>Add Your previous Job experience</p>
       <div>
-        {experienceList.map((item, index) => (
+        {experienceList && experienceList.map((item, index) => (
           <div key={item.id} className='grid grid-cols-2 gap-3 border p-3 my-5 rounded-lg'>
             <div>
               <label className='text-xs'>Position Title</label>

@@ -13,6 +13,15 @@ interface PersonalDetailsProps {
 function PersonalDetails({ enabledNext }: PersonalDetailsProps) {
     const params = useParams();
     const resumeContext = useContext(ResumeInfoContext);
+    const [formData, setFormData] = useState({
+        firstName: '',
+        lastName: '',
+        jobTitle: '',
+        address: '',
+        phone: '',
+        email: '',
+    });
+    const [loading, setLoading] = useState(false);
 
     if (!resumeContext) {
         return <div>Error: ResumeInfoContext is not provided.</div>;
@@ -20,30 +29,21 @@ function PersonalDetails({ enabledNext }: PersonalDetailsProps) {
 
     const { resumeInfo, setResumeInfo } = resumeContext;
 
-    const [formData, setFormData] = useState({
-        firstName: resumeInfo?.firstName || '',
-        lastName: resumeInfo?.lastName || '',
-        jobTitle: resumeInfo?.jobTitle || '',
-        address: resumeInfo?.address || '',
-        phone: resumeInfo?.phone || '',
-        email: resumeInfo?.res_email || '',
-    });
-
     useEffect(() => {
-        if (resumeInfo?.firstName) {
-          setFormData({
-            ...formData,
-            firstName: resumeInfo.firstName,
-            lastName: resumeInfo.lastName,
-            jobTitle: resumeInfo.jobTitle,
-            address: resumeInfo.address,
-            phone: resumeInfo.phone,
-            email: resumeInfo.res_email,
-          });
+        if (resumeInfo) {
+            setFormData({
+                ...formData,
+                firstName: resumeInfo.firstName,
+                lastName: resumeInfo.lastName,
+                jobTitle: resumeInfo.jobTitle,
+                address: resumeInfo.address,
+                phone: resumeInfo.phone,
+                email: resumeInfo.res_email,
+            });
         }
-      }, [resumeInfo]);
+    }, [resumeInfo, setResumeInfo]);
 
-    const [loading, setLoading] = useState(false);
+
 
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {

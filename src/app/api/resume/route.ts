@@ -2,6 +2,7 @@ import { db } from "../../../../utils/db";
 import { ResumeTitle } from "../../../../utils/schema";
 import { NextRequest, NextResponse } from "next/server";
 import { eq } from "drizzle-orm";
+import { ResumeData } from "@/types";
 
 export async function POST(req: NextRequest) {
     const body = await req.json();
@@ -19,9 +20,9 @@ export async function POST(req: NextRequest) {
         if (response) {
             return NextResponse.json({ message: 'success' }, { status: 200 });
         }
-    } catch (err: any) {
+    } catch (err) {
         console.log(err);
-        return NextResponse.json({ message: err.message }, { status: 400 });
+        return NextResponse.json({ message: err }, { status: 400 });
     }
 }
 
@@ -53,9 +54,9 @@ export async function GET(req: NextRequest) {
             } else {
                 return NextResponse.json({ message: 'No resume found with the provided unicon_id' }, { status: 404 });
             }
-        } catch (err: any) {
+        } catch (err) {
             console.log(err);
-            return NextResponse.json({ message: err.message }, { status: 400 });
+            return NextResponse.json({ message: err }, { status: 400 });
         }
     }
 
@@ -70,7 +71,7 @@ export async function PUT(req: NextRequest) {
         return NextResponse.json({ message: 'id query parameter is required' }, { status: 400 });
     }
 
-    const updateData: any = {};
+    const updateData: Partial<ResumeData>  = {};
 
     if (firstName) updateData.firstName = firstName;
     if (lastName) updateData.lastName = lastName;
@@ -96,9 +97,9 @@ export async function PUT(req: NextRequest) {
         } else {
             return NextResponse.json({ message: 'Resume Not found' }, { status: 404 });
         }
-    } catch (e: any) {
+    } catch (e) {
         console.log(e);
-        return NextResponse.json({ message: e.message }, { status: 400 });
+        return NextResponse.json({ message: e }, { status: 400 });
     }
 }
 
@@ -119,8 +120,8 @@ export async function DELETE(req: NextRequest) {
         } else {
             return NextResponse.json({ message: 'Resume Not found' }, { status: 404 });
         }
-    } catch (e: any) {
+    } catch (e) {
         console.log(e);
-        return NextResponse.json({ message: e.message }, { status: 400 });
+        return NextResponse.json({ message: e }, { status: 400 });
     }
 }

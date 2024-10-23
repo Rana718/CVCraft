@@ -1,4 +1,4 @@
-import { ResumeData, ResumeInfoProps } from '@/types'
+import { ResumeInfoProps } from '@/types'
 import React from 'react'
 
 

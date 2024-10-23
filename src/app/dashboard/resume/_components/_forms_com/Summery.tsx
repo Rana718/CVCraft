@@ -18,11 +18,11 @@ interface AiSummary {
 }
 
 function Summery({ enabledNext }: SummeryProps) {
+    const resumeContext = useContext(ResumeInfoContext);
     const [summery, setSummery] = useState('');
     const [loading, setLoading] = useState(false);
     const params = useParams();
     const [aiGeneratedSummeryList, setAiGenerateSummeryList] = useState<AiSummary[]>([]);
-    const resumeContext = useContext(ResumeInfoContext);
 
     if (!resumeContext) {
         return <div>Error: ResumeInfoContext is not provided.</div>;
@@ -31,7 +31,7 @@ function Summery({ enabledNext }: SummeryProps) {
     const { resumeInfo, setResumeInfo } = resumeContext;
 
     useEffect(() => {
-        if (summery) {
+        if (summery && resumeInfo) {
             setResumeInfo({
                 ...resumeInfo,
                 summery: summery || '',
@@ -48,7 +48,7 @@ function Summery({ enabledNext }: SummeryProps) {
                 skills: resumeInfo?.skills || [],
             })
         }
-    }, [summery])
+    }, [summery, resumeInfo, setResumeInfo])
 
     const GenerateSummeryFromAI = async () => {
         setLoading(true);
@@ -81,8 +81,8 @@ function Summery({ enabledNext }: SummeryProps) {
                 enabledNext(true);
                 
             }
-        } catch (e: any) {
-            console.log(e.message)
+        } catch (e) {
+            console.log(e)
             setLoading(false);
         }
     };

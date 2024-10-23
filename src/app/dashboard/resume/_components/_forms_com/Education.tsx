@@ -30,22 +30,25 @@ function Education() {
     const { resumeInfo, setResumeInfo } = resumeContext;
 
     useEffect(() => {
-        setResumeInfo({
-            ...resumeInfo,
-            education: educationalList,
-            firstName: resumeInfo?.firstName || '',
-            lastName: resumeInfo?.lastName || '',
-            jobTitle: resumeInfo?.jobTitle || '',
-            address: resumeInfo?.address || '',
-            phone: resumeInfo?.phone || '',
-            email: resumeInfo?.email || '',
-            res_email: resumeInfo?.res_email || '',
-            summery: resumeInfo?.summery || '',
-            themeColor: resumeInfo?.themeColor || '',
-            experience: resumeInfo?.experience || [],
-            skills: resumeInfo?.skills || [],
-        })
-    }, [educationalList])
+        if(resumeInfo){
+
+            setResumeInfo({
+                ...resumeInfo,
+                education: educationalList,
+                firstName: resumeInfo?.firstName || '',
+                lastName: resumeInfo?.lastName || '',
+                jobTitle: resumeInfo?.jobTitle || '',
+                address: resumeInfo?.address || '',
+                phone: resumeInfo?.phone || '',
+                email: resumeInfo?.email || '',
+                res_email: resumeInfo?.res_email || '',
+                summery: resumeInfo?.summery || '',
+                themeColor: resumeInfo?.themeColor || '',
+                experience: resumeInfo?.experience || [],
+                skills: resumeInfo?.skills || [],
+            })
+        }
+    }, [educationalList, resumeInfo, setResumeInfo])
 
     useEffect(() => {
         resumeInfo && setEducationalList(resumeInfo?.education)

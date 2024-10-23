@@ -17,33 +17,36 @@ interface Skill {
 }
 
 function Skills() {
-  const [skillsList, setSkillsList] = useState<Skill[]>([]);
   const params = useParams();
-  const [loading, setLoading] = useState(false);
   const resumeContext = useContext(ResumeInfoContext);
-
+  const [skillsList, setSkillsList] = useState<Skill[]>([]);
+  const [loading, setLoading] = useState(false);
+  
   if (!resumeContext) {
     return <div>Error: ResumeInfoContext is not provided.</div>;
   }
   const { resumeInfo, setResumeInfo } = resumeContext;
 
   useEffect(() => {
-    setResumeInfo({
-      ...resumeInfo,
-      skills: skillsList,
-      firstName: resumeInfo?.firstName || '',
-      lastName: resumeInfo?.lastName || '',
-      jobTitle: resumeInfo?.jobTitle || '',
-      address: resumeInfo?.address || '',
-      phone: resumeInfo?.phone || '',
-      email: resumeInfo?.email || '',
-      summery: resumeInfo?.summery || '',
-      res_email: resumeInfo?.res_email || '',
-      education: resumeInfo?.education || [],
-      themeColor: resumeInfo?.themeColor || '',
-      experience: resumeInfo?.experience || [],
-    })
-  }, [skillsList])
+    if(resumeInfo){
+
+      setResumeInfo({
+        ...resumeInfo,
+        skills: skillsList,
+        firstName: resumeInfo?.firstName || '',
+        lastName: resumeInfo?.lastName || '',
+        jobTitle: resumeInfo?.jobTitle || '',
+        address: resumeInfo?.address || '',
+        phone: resumeInfo?.phone || '',
+        email: resumeInfo?.email || '',
+        summery: resumeInfo?.summery || '',
+        res_email: resumeInfo?.res_email || '',
+        education: resumeInfo?.education || [],
+        themeColor: resumeInfo?.themeColor || '',
+        experience: resumeInfo?.experience || [],
+      })
+    }
+  }, [skillsList, resumeInfo, setResumeInfo])
 
   useEffect(() => {
     resumeInfo && setSkillsList(resumeInfo?.skills)
@@ -88,8 +91,8 @@ function Skills() {
         setLoading(false);
 
       }
-    } catch (e: any) {
-      console.log(e.message)
+    } catch (e) {
+      console.log(e)
       setLoading(false);
     }
   }
@@ -100,7 +103,7 @@ function Skills() {
       <p>Add Your top professional key skills</p>
 
       <div>
-        {skillsList.map((item, index) => (
+        {skillsList && skillsList.map((item, index) => (
           <div key={index} className='flex justify-between mb-2 border rounded-lg p-3 '>
             <div>
               <label className='text-xs'>Name</label>
