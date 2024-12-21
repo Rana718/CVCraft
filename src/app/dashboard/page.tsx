@@ -8,41 +8,40 @@ function Dashboard() {
   const [resumes, setResumes] = useState([]);
   const { user } = useUser();
 
-    useEffect(() => {
-        getResumeData();
-    }, [user])
+  const getResumeData = async () => {
+    const email = user?.primaryEmailAddress?.emailAddress;
+    if (!email) return;
 
+    try {
+      const response = await fetch(`/api/resume?email=${email}`);
+      const data = await response.json();
 
-    const getResumeData = async () => {
-        const email = user?.primaryEmailAddress?.emailAddress;
-        if (!email) return;
-
-        try {
-            const response = await fetch(`/api/resume?email=${email}`);
-            const data = await response.json();
-
-            if (response.ok) {
-                setResumes(data);
-            } else {
-                console.log("Error:", data.message);
-            }
-        } catch (error) {
-            console.log("Error fetching resumes:", error);
-        }
+      if (response.ok) {
+        setResumes(data);
+      } else {
+        console.log("Error:", data.message);
+      }
+    } catch (error) {
+      console.log("Error fetching resumes:", error);
     }
+  }
+
+  useEffect(() => {
+    getResumeData();
+  }, [getResumeData])
 
   return (
     <div className='p-10 md:px-20 lg:px-32'>
-        <h2 className='font-bold text-3xl'>My Resume</h2>
-        <p>Start Creating Your Resume using AI</p>
+      <h2 className='font-bold text-3xl'>My Resume</h2>
+      <p>Start Creating Your Resume using AI</p>
 
-        <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 mt-5 gap-3'>
-          <AddResume/>
+      <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 mt-5 gap-3'>
+        <AddResume />
 
-          {resumes.length > 0 && resumes.map((item, index)=>(
-            <ResumeCard key={index} resume={item} refreshData={getResumeData}/>
-          ))}
-        </div>
+        {resumes.length > 0 && resumes.map((item, index) => (
+          <ResumeCard key={index} resume={item} refreshData={getResumeData} />
+        ))}
+      </div>
     </div>
   )
 }

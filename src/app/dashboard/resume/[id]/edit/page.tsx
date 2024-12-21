@@ -10,15 +10,15 @@ function EditResume() {
   const params = useParams();
   const [resumeInfo, setResumeInfo] = useState<ResumeData | null>(null);
 
-  useEffect(() => {
-    getResumeInfo()
-  }, [])
-
   const getResumeInfo = async () => {
     const res = await fetch(`http://localhost:3000/api/resume?id=${params.id}`)
     const data = await res.json()
     setResumeInfo(data)
   }
+
+  useEffect(() => {
+    getResumeInfo()
+  }, [getResumeInfo])
 
   return (
     <ResumeInfoContext.Provider value={{ resumeInfo, setResumeInfo }}>

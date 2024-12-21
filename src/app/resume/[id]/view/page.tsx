@@ -7,22 +7,22 @@ import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import { RWebShare } from 'react-web-share';
-//@ts-expect-error: html2pdf
+//@ts-expect-error
 import html2pdf from 'html2pdf.js';
 
 function ViewResume() {
     const params = useParams();
     const [resumeInfo, setResumeInfo] = useState<ResumeData | null>(null);
 
-    useEffect(() => {
-        GetResumeInfo();
-    }, []);
-
     const GetResumeInfo = async () => {
         const res = await fetch(`http://localhost:3000/api/resume?id=${params.id}`);
         const data = await res.json();
         setResumeInfo(data);
     };
+
+    useEffect(() => {
+        GetResumeInfo();
+    }, [GetResumeInfo]);
 
     const HandleDownload = () => {
         const printArea = document.getElementById("print-area");
