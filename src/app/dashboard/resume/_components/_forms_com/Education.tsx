@@ -18,22 +18,12 @@ interface Education {
 }
 
 function Education() {
-    const resumeContext = useContext(ResumeInfoContext);
     const [loading, setLoading] = useState(false);
     const params = useParams();
     const [educationalList, setEducationalList] = useState<Education[]>([]);
-
-    if (!resumeContext) {
-        return <div>Error: ResumeInfoContext is not provided.</div>;
-    }
+    const resumeContext = useContext(ResumeInfoContext);
 
     const { resumeInfo, setResumeInfo } = resumeContext;
-
-    useEffect(() => {
-        if (resumeInfo) {
-            setEducationalList(resumeInfo?.education);
-        }
-    }, [resumeInfo]);
 
     useEffect(() => {
         if (resumeInfo) {
@@ -45,6 +35,12 @@ function Education() {
                 jobTitle: resumeInfo.jobTitle || '',
                 address: resumeInfo.address || '',
             });
+        }
+    }, [educationalList, resumeInfo, setResumeInfo]);
+
+    useEffect(() => {
+        if (resumeInfo) {
+            setEducationalList(resumeInfo?.education);
         }
     }, [resumeInfo]);
 

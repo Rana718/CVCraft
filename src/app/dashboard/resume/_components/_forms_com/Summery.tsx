@@ -24,10 +24,6 @@ function Summery({ enabledNext }: SummeryProps) {
     const params = useParams();
     const [aiGeneratedSummeryList, setAiGenerateSummeryList] = useState<AiSummary[]>([]);
 
-    if (!resumeContext) {
-        return <div>Error: ResumeInfoContext is not provided.</div>;
-    }
-
     const { resumeInfo, setResumeInfo } = resumeContext;
 
     useEffect(() => {

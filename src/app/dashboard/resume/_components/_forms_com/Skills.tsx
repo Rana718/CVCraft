@@ -21,10 +21,6 @@ function Skills() {
   const resumeContext = useContext(ResumeInfoContext);
   const [skillsList, setSkillsList] = useState<Skill[]>([]);
   const [loading, setLoading] = useState(false);
-
-  if (!resumeContext) {
-    return <div>Error: ResumeInfoContext is not provided.</div>;
-  }
   const { resumeInfo, setResumeInfo } = resumeContext;
 
   useEffect(() => {

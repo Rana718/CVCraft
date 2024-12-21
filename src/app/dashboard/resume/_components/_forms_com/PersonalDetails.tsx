@@ -24,7 +24,7 @@ function PersonalDetails({ enabledNext }: PersonalDetailsProps) {
     const [loading, setLoading] = useState(false);
     const { resumeInfo, setResumeInfo } = resumeContext || {};
 
-    // Effect for updating form data from context
+    
     useEffect(() => {
         if (resumeInfo) {
             setFormData({
@@ -38,7 +38,7 @@ function PersonalDetails({ enabledNext }: PersonalDetailsProps) {
         }
     }, [resumeInfo]);
 
-    // Effect for updating context with form data
+    
     useEffect(() => {
         if (resumeInfo && setResumeInfo) {
             setResumeInfo({
