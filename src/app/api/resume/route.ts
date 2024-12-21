@@ -40,9 +40,9 @@ export async function GET(req: NextRequest) {
             } else {
                 return NextResponse.json({ message: 'No resumes found' }, { status: 404 });
             }
-        } catch (err: any) {
+        } catch (err) {
             console.log(err);
-            return NextResponse.json({ message: err.message }, { status: 400 });
+            return NextResponse.json({ message: err }, { status: 400 });
         }
     }
     if (id) {

@@ -7,7 +7,6 @@ import { useParams } from 'next/navigation';
 import { useContext, useEffect, useState } from 'react';
 import { toast } from 'sonner';
 
-
 interface ExperienceEntry {
   id: number;
   title: string;
@@ -20,17 +19,12 @@ interface ExperienceEntry {
   workSummery: string;
 }
 
-function Experience() {
+const Experience = () => {
   const resumeContext = useContext(ResumeInfoContext);
+  const params = useParams();
   const [experienceList, setExperienceList] = useState<ExperienceEntry[]>([]);
   const [loading, setLoading] = useState(false);
-  const params = useParams();
-
-  if (!resumeContext) {
-    return <div>Error: ResumeInfoContext is not provided.</div>;
-  }
-
-  const { resumeInfo, setResumeInfo } = resumeContext;
+  const { resumeInfo, setResumeInfo } = resumeContext || { resumeInfo: null, setResumeInfo: () => {} };
 
   useEffect(() => {
     if (resumeInfo) {
@@ -39,25 +33,17 @@ function Experience() {
   }, [resumeInfo]);
 
   useEffect(() => {
-    if (experienceList.length > 0) {
-      setResumeInfo((prev) => ({
-        ...prev,
+    if (resumeInfo && setResumeInfo) {
+      setResumeInfo({
+        ...resumeInfo,
         experience: experienceList,
-        firstName: resumeInfo?.firstName || '',
-        lastName: resumeInfo?.lastName || '',
-        jobTitle: resumeInfo?.jobTitle || '',
-        address: resumeInfo?.address || '',
-        phone: resumeInfo?.phone || '',
-        email: resumeInfo?.email || '',
-        res_email: resumeInfo?.res_email || '',
-        summery: resumeInfo?.summery || '',
-        themeColor: resumeInfo?.themeColor || '',
-        education: resumeInfo?.education || [],
-        skills: resumeInfo?.skills || [],
-      }));
+      });
     }
-    
-  }, [experienceList]);
+  }, [experienceList, resumeInfo, setResumeInfo]);
+
+  if (!resumeContext) {
+    return <div>Error: ResumeInfoContext is not provided.</div>;
+  }
 
   const handleChange = (index: number, event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -97,13 +83,12 @@ function Experience() {
   };
 
   const handleSumbit = async () => {
-
     setLoading(true);
     try {
       const response = await fetch('/api/resume', {
         method: 'PUT',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           id: params.id,
@@ -111,23 +96,21 @@ function Experience() {
         }),
       });
       if (response) {
-        toast("successfully saved")
+        toast('Successfully saved');
         setLoading(false);
-
       }
     } catch (e) {
-      console.log(e)
+      console.log(e);
       setLoading(false);
     }
-
-  }
+  };
 
   return (
     <div className='p-5 shadow-lg rounded-lg border-t-primary border-t-4 mt-10'>
       <h2 className='font-bold text-lg'>Professional Experience</h2>
       <p>Add Your previous Job experience</p>
       <div>
-        {experienceList && experienceList.map((item, index) => (
+        {experienceList.map((item, index) => (
           <div key={item.id} className='grid grid-cols-2 gap-3 border p-3 my-5 rounded-lg'>
             <div>
               <label className='text-xs'>Position Title</label>
@@ -214,7 +197,6 @@ function Experience() {
           {loading ? <LoaderCircle className='animate-spin' /> : 'Save'}
         </Button>
       </div>
-
     </div>
   );
 }

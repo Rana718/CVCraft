@@ -21,36 +21,26 @@ function Skills() {
   const resumeContext = useContext(ResumeInfoContext);
   const [skillsList, setSkillsList] = useState<Skill[]>([]);
   const [loading, setLoading] = useState(false);
-  
+
   if (!resumeContext) {
     return <div>Error: ResumeInfoContext is not provided.</div>;
   }
   const { resumeInfo, setResumeInfo } = resumeContext;
 
   useEffect(() => {
-    if(resumeInfo){
-
+    if (resumeInfo) {
       setResumeInfo({
         ...resumeInfo,
         skills: skillsList,
-        firstName: resumeInfo?.firstName || '',
-        lastName: resumeInfo?.lastName || '',
-        jobTitle: resumeInfo?.jobTitle || '',
-        address: resumeInfo?.address || '',
-        phone: resumeInfo?.phone || '',
-        email: resumeInfo?.email || '',
-        summery: resumeInfo?.summery || '',
-        res_email: resumeInfo?.res_email || '',
-        education: resumeInfo?.education || [],
-        themeColor: resumeInfo?.themeColor || '',
-        experience: resumeInfo?.experience || [],
-      })
+      });
     }
-  }, [skillsList, resumeInfo, setResumeInfo])
+  }, [skillsList, resumeInfo, setResumeInfo]);
 
   useEffect(() => {
-    resumeInfo && setSkillsList(resumeInfo?.skills)
-  }, [])
+    if (resumeInfo?.skills) {
+      setSkillsList(resumeInfo.skills);
+    }
+  }, [resumeInfo]);
 
   const handleChange = (index: number, name: keyof Skill, value: string | number) => {
     const newEntries = [...skillsList];
@@ -112,7 +102,7 @@ function Skills() {
                 onChange={(e) => handleChange(index, 'name', e.target.value)} />
             </div>
             <Rating style={{ maxWidth: 120 }} value={item.rating / 20}
-              onChange={(v: any) => handleChange(index, 'rating', v * 20)} />
+              onChange={(v: number) => handleChange(index, 'rating', v * 20)} />
 
           </div>
         ))}

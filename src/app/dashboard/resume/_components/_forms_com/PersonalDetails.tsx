@@ -16,35 +16,41 @@ function PersonalDetails({ enabledNext }: PersonalDetailsProps) {
     const [formData, setFormData] = useState({
         firstName: '',
         lastName: '',
-        jobTitle: '',
-        address: '',
-        phone: '',
         email: '',
+        phone: '',
+        address: '',
+        jobTitle: '',
     });
     const [loading, setLoading] = useState(false);
+    const { resumeInfo, setResumeInfo } = resumeContext || {};
+
+    // Effect for updating form data from context
+    useEffect(() => {
+        if (resumeInfo) {
+            setFormData({
+                firstName: resumeInfo.firstName || '',
+                lastName: resumeInfo.lastName || '',
+                email: resumeInfo.email || '',
+                phone: resumeInfo.phone || '',
+                address: resumeInfo.address || '',
+                jobTitle: resumeInfo.jobTitle || '',
+            });
+        }
+    }, [resumeInfo]);
+
+    // Effect for updating context with form data
+    useEffect(() => {
+        if (resumeInfo && setResumeInfo) {
+            setResumeInfo({
+                ...resumeInfo,
+                ...formData
+            });
+        }
+    }, [formData, resumeInfo, setResumeInfo]);
 
     if (!resumeContext) {
         return <div>Error: ResumeInfoContext is not provided.</div>;
     }
-
-    const { resumeInfo, setResumeInfo } = resumeContext;
-
-    useEffect(() => {
-        if (resumeInfo) {
-            setFormData({
-                ...formData,
-                firstName: resumeInfo.firstName,
-                lastName: resumeInfo.lastName,
-                jobTitle: resumeInfo.jobTitle,
-                address: resumeInfo.address,
-                phone: resumeInfo.phone,
-                email: resumeInfo.res_email,
-            });
-        }
-    }, [resumeInfo, setResumeInfo]);
-
-
-
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         enabledNext(false);
@@ -55,7 +61,8 @@ function PersonalDetails({ enabledNext }: PersonalDetailsProps) {
             [name]: value,
         }));
 
-        setResumeInfo((prev) => prev ? ({
+        
+        setResumeInfo?.((prev) => prev ? ({
             ...prev,
             [name]: value
         }) : null);
